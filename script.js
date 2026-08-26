@@ -252,99 +252,6 @@ function initParallax() {
     });
 }
 
-// =============================================================
-// =============================================================
-// MÚSICA DESDE YOUTUBE - VERSIÓN CORREGIDA
-// =============================================================
-
-// 📌 CONFIGURACIÓN - CAMBIA EL ID AQUÍ
-const YOUTUBE_VIDEO_ID = 'lPQK4Misu-A'; // <--- ID CORRECTO (con L minúscula)
-
-let player = null;
-let musicaActivada = false;
-let playerReady = false;
-
-// =============================================================
-// FUNCIÓN QUE CARGA LA API DE YOUTUBE
-// =============================================================
-window.onYouTubeIframeAPIReady = function() {
-    console.log('🎵 API de YouTube cargada');
-    
-    // Verificar que el contenedor existe
-    const container = document.getElementById('youtube-player');
-    if (!container) {
-        console.error('❌ No se encontró #youtube-player');
-        return;
-    }
-    
-    // Crear el reproductor
-    player = new YT.Player('youtube-player', {
-        height: '0',
-        width: '0',
-        videoId: YOUTUBE_VIDEO_ID,
-        playerVars: {
-            'autoplay': 0,
-            'controls': 0,
-            'disablekb': 1,
-            'loop': 1,
-            'playlist': YOUTUBE_VIDEO_ID,
-            'rel': 0,
-            'showinfo': 0,
-            'iv_load_policy': 3,
-            'modestbranding': 1
-        },
-        events: {
-            'onReady': function(event) {
-                playerReady = true;
-                console.log('✅ Reproductor de YouTube listo');
-                console.log('🎵 Canción:', YOUTUBE_VIDEO_ID);
-            },
-            'onStateChange': function(event) {
-                if (event.data === YT.PlayerState.ENDED) {
-                    player.playVideo();
-                }
-            }
-        }
-    });
-};
-
-// =============================================================
-// CONTROL DEL BOTÓN DE MÚSICA
-// =============================================================
-document.addEventListener('DOMContentLoaded', function() {
-    const musicBtn = document.getElementById('musicControl');
-    
-    if (!musicBtn) {
-        console.error('❌ No se encontró el botón #musicControl');
-        return;
-    }
-    
-    musicBtn.addEventListener('click', function(e) {
-        if (!playerReady) {
-            alert('⏳ La música está cargando, espera un momento...');
-            return;
-        }
-        
-        if (musicaActivada) {
-            // Pausar
-            player.pauseVideo();
-            this.classList.remove('playing');
-            this.querySelector('i').className = 'fas fa-music';
-            this.querySelector('.music-tooltip').textContent = 'Reproducir música';
-        } else {
-            // Reproducir
-            player.playVideo();
-            this.classList.add('playing');
-            this.querySelector('i').className = 'fas fa-music fa-beat';
-            this.querySelector('.music-tooltip').textContent = 'Pausar música';
-        }
-        musicaActivada = !musicaActivada;
-    });
-    
-    console.log('🎵 Control de música inicializado');
-});
-// Inicializar la API de YouTube (se llama automáticamente)
-// La función onYouTubeIframeAPIReady se ejecuta cuando la API carga
 
 // =============================================================
 // 9. GALERÍA CON LIGHTBOX (CON ANIMACIÓN)
@@ -466,27 +373,131 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log(`💍 ${CONFIG.novios} - ${CONFIG.fechaBoda.toLocaleDateString('es-ES')}`);
 });
 
-// // DIAGNÓSTICO: Verificar contenedor de pétalos
-// document.addEventListener('DOMContentLoaded', function() {
-//     const container = document.getElementById('petals-container');
-//     if (container) {
-//         console.log('✅ Contenedor de pétalos encontrado');
-//         // Crear un pétalo de prueba visible
-//         const test = document.createElement('div');
-//         test.style.cssText = `
-//             position: absolute;
-//             top: 50%;
-//             left: 50%;
-//             width: 50px;
-//             height: 50px;
-//             background: red;
-//             border-radius: 50%;
-//             z-index: 999;
-//             transform: translate(-50%, -50%);
-//         `;
-//         container.appendChild(test);
-//         console.log('🔴 Pétalo de prueba rojo agregado - ¿lo ves?');
-//     } else {
-//         console.error('❌ No se encontró #petals-container en el HTML');
-//     }
-// });
+// =============================================================
+// MÚSICA DESDE YOUTUBE - VERSIÓN SIMPLIFICADA Y CORREGIDA
+// =============================================================
+
+// 📌 CONFIGURACIÓN - SOLO CAMBIA ESTO
+const ID_VIDEO_YOUTUBE = 'lPQK4Misu-A'; // <--- TU ID (con L minúscula)
+
+let reproductor = null;
+let musicaActiva = false;
+let reproductorListo = false;
+
+// =============================================================
+// CARGA LA API DE YOUTUBE
+// =============================================================
+function cargarYouTubeAPI() {
+    // Si ya está cargada, no hacer nada
+    if (typeof YT !== 'undefined' && YT.loaded) {
+        inicializarReproductor();
+        return;
+    }
+    
+    // Cargar la API
+    const tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    const firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    
+    // La función se llama automáticamente cuando la API carga
+    window.onYouTubeIframeAPIReady = function() {
+        console.log('🎵 API de YouTube cargada');
+        inicializarReproductor();
+    };
+}
+
+// =============================================================
+// INICIALIZA EL REPRODUCTOR
+// =============================================================
+function inicializarReproductor() {
+    const contenedor = document.getElementById('youtube-player');
+    if (!contenedor) {
+        console.error('❌ No se encontró #youtube-player');
+        return;
+    }
+    
+    // Verificar que YT está disponible
+    if (typeof YT === 'undefined' || typeof YT.Player === 'undefined') {
+        console.error('❌ YT no está disponible');
+        return;
+    }
+    
+    reproductor = new YT.Player('youtube-player', {
+        height: '0',
+        width: '0',
+        videoId: ID_VIDEO_YOUTUBE,
+        playerVars: {
+            autoplay: 0,
+            controls: 0,
+            disablekb: 1,
+            loop: 1,
+            playlist: ID_VIDEO_YOUTUBE,
+            rel: 0,
+            showinfo: 0,
+            iv_load_policy: 3,
+            modestbranding: 1
+        },
+        events: {
+            onReady: function() {
+                reproductorListo = true;
+                console.log('✅ Reproductor listo - ID:', ID_VIDEO_YOUTUBE);
+            },
+            onStateChange: function(event) {
+                if (event.data === YT.PlayerState.ENDED) {
+                    reproductor.playVideo();
+                }
+            },
+            onError: function(event) {
+                console.error('❌ Error en reproductor:', event.data);
+            }
+        }
+    });
+}
+
+// =============================================================
+// CONTROLA EL BOTÓN DE MÚSICA
+// =============================================================
+function configurarBotonMusica() {
+    const boton = document.getElementById('musicControl');
+    if (!boton) {
+        console.error('❌ No se encontró #musicControl');
+        return;
+    }
+    
+    boton.addEventListener('click', function() {
+        if (!reproductorListo) {
+            alert('⏳ Cargando música, espera un momento...');
+            return;
+        }
+        
+        if (musicaActiva) {
+            // PAUSAR
+            reproductor.pauseVideo();
+            this.classList.remove('playing');
+            this.querySelector('i').className = 'fas fa-music';
+            this.querySelector('.music-tooltip').textContent = 'Reproducir música';
+            musicaActiva = false;
+            console.log('⏸️ Música pausada');
+        } else {
+            // REPRODUCIR
+            reproductor.playVideo();
+            this.classList.add('playing');
+            this.querySelector('i').className = 'fas fa-music fa-beat';
+            this.querySelector('.music-tooltip').textContent = 'Pausar música';
+            musicaActiva = true;
+            console.log('▶️ Música reproduciendo');
+        }
+    });
+    
+    console.log('🎵 Botón de música configurado');
+}
+
+// =============================================================
+// INICIALIZAR TODO CUANDO LA PÁGINA CARGA
+// =============================================================
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🎵 Iniciando música...');
+    cargarYouTubeAPI();
+    configurarBotonMusica();
+});
