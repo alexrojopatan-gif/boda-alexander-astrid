@@ -254,23 +254,30 @@ function initParallax() {
 
 // =============================================================
 // =============================================================
-// MÚSICA DESDE YOUTUBE (sin descargas)
+// MÚSICA DESDE YOUTUBE - VERSIÓN CORREGIDA
 // =============================================================
 
-// CONFIGURACIÓN - CAMBIA EL ID DEL VIDEO AQUÍ
-// El ID es lo que va después de "v=" en el enlace de YouTube
-// Ejemplo: https://www.youtube.com/watch?v=ABCD1234 → ID = "ABCD1234"
-const YOUTUBE_VIDEO_ID = lPQK4Misu-A; // <--- CAMBIA ESTO
+// 📌 CONFIGURACIÓN - CAMBIA EL ID AQUÍ
+const YOUTUBE_VIDEO_ID = 'lPQK4Misu-A'; // <--- ID CORRECTO (con L minúscula)
 
 let player = null;
 let musicaActivada = false;
 let playerReady = false;
 
-// Función que se ejecuta cuando la API de YouTube está lista
-function onYouTubeIframeAPIReady() {
+// =============================================================
+// FUNCIÓN QUE CARGA LA API DE YOUTUBE
+// =============================================================
+window.onYouTubeIframeAPIReady = function() {
     console.log('🎵 API de YouTube cargada');
     
-    // Crear el reproductor oculto
+    // Verificar que el contenedor existe
+    const container = document.getElementById('youtube-player');
+    if (!container) {
+        console.error('❌ No se encontró #youtube-player');
+        return;
+    }
+    
+    // Crear el reproductor
     player = new YT.Player('youtube-player', {
         height: '0',
         width: '0',
@@ -279,7 +286,7 @@ function onYouTubeIframeAPIReady() {
             'autoplay': 0,
             'controls': 0,
             'disablekb': 1,
-            'loop': 1,        // Repetir
+            'loop': 1,
             'playlist': YOUTUBE_VIDEO_ID,
             'rel': 0,
             'showinfo': 0,
@@ -287,49 +294,55 @@ function onYouTubeIframeAPIReady() {
             'modestbranding': 1
         },
         events: {
-            'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange
+            'onReady': function(event) {
+                playerReady = true;
+                console.log('✅ Reproductor de YouTube listo');
+                console.log('🎵 Canción:', YOUTUBE_VIDEO_ID);
+            },
+            'onStateChange': function(event) {
+                if (event.data === YT.PlayerState.ENDED) {
+                    player.playVideo();
+                }
+            }
         }
     });
-}
+};
 
-function onPlayerReady(event) {
-    playerReady = true;
-    console.log('✅ Reproductor de YouTube listo');
-}
-
-function onPlayerStateChange(event) {
-    // Si el video termina, reproducir de nuevo (loop manual)
-    if (event.data === YT.PlayerState.ENDED) {
-        player.playVideo();
-    }
-}
-
-// Control de música desde el botón
-const musicBtn = document.getElementById('musicControl');
-
-musicBtn.addEventListener('click', function(e) {
-    if (!playerReady) {
-        alert('⏳ La música está cargando, espera un momento...');
+// =============================================================
+// CONTROL DEL BOTÓN DE MÚSICA
+// =============================================================
+document.addEventListener('DOMContentLoaded', function() {
+    const musicBtn = document.getElementById('musicControl');
+    
+    if (!musicBtn) {
+        console.error('❌ No se encontró el botón #musicControl');
         return;
     }
-
-    if (musicaActivada) {
-        // Pausar
-        player.pauseVideo();
-        this.classList.remove('playing');
-        this.querySelector('i').className = 'fas fa-music';
-        this.querySelector('.music-tooltip').textContent = 'Reproducir música';
-    } else {
-        // Reproducir
-        player.playVideo();
-        this.classList.add('playing');
-        this.querySelector('i').className = 'fas fa-music fa-beat';
-        this.querySelector('.music-tooltip').textContent = 'Pausar música';
-    }
-    musicaActivada = !musicaActivada;
+    
+    musicBtn.addEventListener('click', function(e) {
+        if (!playerReady) {
+            alert('⏳ La música está cargando, espera un momento...');
+            return;
+        }
+        
+        if (musicaActivada) {
+            // Pausar
+            player.pauseVideo();
+            this.classList.remove('playing');
+            this.querySelector('i').className = 'fas fa-music';
+            this.querySelector('.music-tooltip').textContent = 'Reproducir música';
+        } else {
+            // Reproducir
+            player.playVideo();
+            this.classList.add('playing');
+            this.querySelector('i').className = 'fas fa-music fa-beat';
+            this.querySelector('.music-tooltip').textContent = 'Pausar música';
+        }
+        musicaActivada = !musicaActivada;
+    });
+    
+    console.log('🎵 Control de música inicializado');
 });
-
 // Inicializar la API de YouTube (se llama automáticamente)
 // La función onYouTubeIframeAPIReady se ejecuta cuando la API carga
 
