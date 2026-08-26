@@ -253,37 +253,85 @@ function initParallax() {
 }
 
 // =============================================================
-// 8. MÚSICA DE FONDO
 // =============================================================
-let audio = null;
-let musicaActivada = false;
+// MÚSICA DESDE YOUTUBE (sin descargas)
+// =============================================================
 
-function initMusica() {
-    audio = new Audio(CONFIG.musica);
-    audio.loop = true;
-    audio.volume = 0.5;
+// CONFIGURACIÓN - CAMBIA EL ID DEL VIDEO AQUÍ
+// El ID es lo que va después de "v=" en el enlace de YouTube
+// Ejemplo: https://www.youtube.com/watch?v=ABCD1234 → ID = "ABCD1234"
+const YOUTUBE_VIDEO_ID = lPQK4Misu-A; // <--- CAMBIA ESTO
+
+let player = null;
+let musicaActivada = false;
+let playerReady = false;
+
+// Función que se ejecuta cuando la API de YouTube está lista
+function onYouTubeIframeAPIReady() {
+    console.log('🎵 API de YouTube cargada');
+    
+    // Crear el reproductor oculto
+    player = new YT.Player('youtube-player', {
+        height: '0',
+        width: '0',
+        videoId: YOUTUBE_VIDEO_ID,
+        playerVars: {
+            'autoplay': 0,
+            'controls': 0,
+            'disablekb': 1,
+            'loop': 1,        // Repetir
+            'playlist': YOUTUBE_VIDEO_ID,
+            'rel': 0,
+            'showinfo': 0,
+            'iv_load_policy': 3,
+            'modestbranding': 1
+        },
+        events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+        }
+    });
 }
 
+function onPlayerReady(event) {
+    playerReady = true;
+    console.log('✅ Reproductor de YouTube listo');
+}
+
+function onPlayerStateChange(event) {
+    // Si el video termina, reproducir de nuevo (loop manual)
+    if (event.data === YT.PlayerState.ENDED) {
+        player.playVideo();
+    }
+}
+
+// Control de música desde el botón
 const musicBtn = document.getElementById('musicControl');
 
 musicBtn.addEventListener('click', function(e) {
-    if (!audio) initMusica();
+    if (!playerReady) {
+        alert('⏳ La música está cargando, espera un momento...');
+        return;
+    }
 
     if (musicaActivada) {
-        audio.pause();
+        // Pausar
+        player.pauseVideo();
         this.classList.remove('playing');
         this.querySelector('i').className = 'fas fa-music';
         this.querySelector('.music-tooltip').textContent = 'Reproducir música';
     } else {
-        audio.play().catch(() => {
-            alert('Haz clic en "Reproducir" para escuchar la música de fondo');
-        });
+        // Reproducir
+        player.playVideo();
         this.classList.add('playing');
         this.querySelector('i').className = 'fas fa-music fa-beat';
         this.querySelector('.music-tooltip').textContent = 'Pausar música';
     }
     musicaActivada = !musicaActivada;
 });
+
+// Inicializar la API de YouTube (se llama automáticamente)
+// La función onYouTubeIframeAPIReady se ejecuta cuando la API carga
 
 // =============================================================
 // 9. GALERÍA CON LIGHTBOX (CON ANIMACIÓN)
