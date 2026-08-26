@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Alexander & Astid - Nuestra Boda</title>
+
+    <!-- Meta tags para compartir en redes -->
+    <meta property="og:title" content="Alexander & Astid - Nuestra Boda" />
+    <meta property="og:description" content="Te invitamos a celebrar nuestro amor. 23 de enero de 2027" />
+    <meta property="og:image" content="assets/img/foto1.jpg" />
+    <meta property="og:url" content="https://tudominio.com" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet" />
+
+    <!-- Font Awesome (iconos) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <!-- CSS principal -->
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+    <!-- ============================================================ -->
+    <!-- BOTÓN DE MÚSICA (flotante)                                    -->
+    <!-- ============================================================ -->
+    <div id="musicControl" class="music-btn">
+        <i class="fas fa-music"></i>
+        <span class="music-tooltip">Reproducir música</span>
+    </div>
+
+<!-- ============================================================ -->
+<!-- ============================================================ -->
+<!-- SECCIÓN HERO - NUEVA VERSIÓN LIMPIA                         -->
+<!-- ============================================================ -->
+<section id="hero" class="hero-section" style="background-image: url('assets/img/foto1.jpg'); background-size: cover; background-position: center;">
+    
+    <!-- Capa oscura (muy suave) -->
+    <div class="hero-overlay-light"></div>
+    
+    <!-- Contenido centrado -->
+    <div class="hero-content-new">
+        
+        <!-- Texto superior -->
+        <p class="hero-badge-new">✦ Con la bendición de Dios ✦</p>
+        
+        <!-- Nombres -->
+        <h1 class="hero-names-new">
+            Alexander <span class="ampersand-new">&amp;</span> Astid
+        </h1>
+        
+        <!-- Línea decorativa -->
+        <div class="hero-divider-new">
+            <span class="line-new"></span>
+            <span class="diamond-new">◆</span>
+            <span class="line-new"></span>
+        </div>
+        
+        <!-- Subtítulo -->
+        <p class="hero-subtitle-new">"Dos almas, un solo jardín de amor"</p>
+        
+        <!-- Scroll -->
+        <div class="hero-scroll-new">
+            <span>Descubre nuestra historia</span>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+        
+    </div>
+    
+    <!-- Pétalos -->
+    <div id="petals-container"></div>
+    
+</section>
+
+    <!-- ============================================================ -->
+    <!-- SECCIÓN DETALLES - FECHA, LUGAR, MAPA                       -->
+    <!-- ============================================================ -->
+    <section id="detalles" class="section-detalles">
+        <div class="container">
+            <div class="detalles-card glass-effect">
+                <div class="detalles-header">
+                    <span class="detalles-icon">🌿</span>
+                    <h2>Nuestro Gran Día</h2>
+                    <span class="detalles-icon">🌿</span>
+                </div>
+
+                <div class="detalles-grid">
+                    <!-- Fecha -->
+                    <div class="detalle-item">
+                        <div class="detalle-icon"><i class="far fa-calendar-alt"></i></div>
+                        <div class="detalle-info">
+                            <span class="detalle-label">Fecha</span>
+                            <span class="detalle-valor">Sábado 23 de enero de 2027</span>
+                        </div>
+                    </div>
+
+                    <!-- Hora -->
+                    <div class="detalle-item">
+                        <div class="detalle-icon"><i class="far fa-clock"></i></div>
+                        <div class="detalle-info">
+                            <span class="detalle-label">Hora</span>
+                            <span class="detalle-valor">15:00 p.m.</span>
+                        </div>
+                    </div>
+
+                    <!-- Lugar -->
+                    <div class="detalle-item">
+                        <div class="detalle-icon"><i class="fas fa-map-pin"></i></div>
+                        <div class="detalle-info">
+                            <span class="detalle-label">Lugar</span>
+                            <span class="detalle-valor">Salón Vella Vista</span>
+                            <span class="detalle-direccion">Santa María de Jesús</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botón Google Maps -->
+                <a href="https://maps.google.com/?q=Salón+Vella+Vista+Santa+María+de+Jesús" target="_blank" class="btn-maps">
+                    <i class="fas fa-location-dot"></i> Ver en Google Maps
+                    <span class="btn-ripple"></span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SECCIÓN CUENTA REGRESIVA                                     -->
+    <!-- ============================================================ -->
+    <section id="countdown" class="section-countdown">
+        <div class="container">
+            <div class="countdown-header">
+                <span class="countdown-flor">🌸</span>
+                <h2>Faltan</h2>
+                <span class="countdown-flor">🌸</span>
+            </div>
+
+            <div class="countdown-grid" id="countdownGrid">
+                <div class="countdown-item">
+                    <span class="countdown-number" id="days">00</span>
+                    <span class="countdown-label">Días</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="hours">00</span>
+                    <span class="countdown-label">Horas</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="minutes">00</span>
+                    <span class="countdown-label">Minutos</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="seconds">00</span>
+                    <span class="countdown-label">Segundos</span>
+                </div>
+            </div>
+
+            <div class="countdown-mensaje">
+                <p>Para celebrar nuestro amor</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SECCIÓN GALERÍA DE FOTOS                                     -->
+    <!-- ============================================================ -->
+    <section id="galeria" class="section-galeria">
+        <div class="container">
+            <div class="galeria-header">
+                <span class="galeria-icon">📸</span>
+                <h2>Nuestros Momentos</h2>
+                <span class="galeria-icon">📸</span>
+                <p class="galeria-sub">Cada foto guarda un pedacito de nuestra historia</p>
+            </div>
+
+            <div class="galeria-grid">
+                <!-- Foto 1 -->
+                <div class="galeria-item" data-src="assets/img/foto1.jpg">
+                    <img src="assets/img/foto1.jpg" alt="Alexander y Astid - Foto 1" />
+                    <div class="galeria-overlay">
+                        <i class="fas fa-expand"></i>
+                        <span>Ver más</span>
+                    </div>
+                </div>
+                <!-- Foto 2 -->
+                <div class="galeria-item" data-src="assets/img/foto2.jpg">
+                    <img src="assets/img/foto2.jpg" alt="Alexander y Astid - Foto 2" />
+                    <div class="galeria-overlay">
+                        <i class="fas fa-expand"></i>
+                        <span>Ver más</span>
+                    </div>
+                </div>
+                <!-- Foto 3 -->
+                <div class="galeria-item" data-src="assets/img/foto3.jpg">
+                    <img src="assets/img/foto3.jpg" alt="Alexander y Astid - Foto 3" />
+                    <div class="galeria-overlay">
+                        <i class="fas fa-expand"></i>
+                        <span>Ver más</span>
+                    </div>
+                </div>
+                <!-- Foto 4 -->
+                <div class="galeria-item" data-src="assets/img/foto4.jpg">
+                    <img src="assets/img/foto4.jpg" alt="Alexander y Astid - Foto 4" />
+                    <div class="galeria-overlay">
+                        <i class="fas fa-expand"></i>
+                        <span>Ver más</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- LIGHTBOX PARA GALERÍA                                       -->
+    <!-- ============================================================ -->
+    <div id="lightbox" class="lightbox">
+        <span class="lightbox-close">&times;</span>
+        <img class="lightbox-content" id="lightboxImg" />
+        <span class="lightbox-nav prev"><i class="fas fa-chevron-left"></i></span>
+        <span class="lightbox-nav next"><i class="fas fa-chevron-right"></i></span>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SECCIÓN RSVP - CONFIRMAR ASISTENCIA                         -->
+    <!-- ============================================================ -->
+    <section id="rsvp" class="section-rsvp">
+        <div class="container">
+            <div class="rsvp-card glass-effect">
+                <div class="rsvp-flores">
+                    <span>🌷</span>
+                    <span>🌹</span>
+                    <span>🌺</span>
+                    <span>🌸</span>
+                </div>
+                <h2>Confirma tu Asistencia</h2>
+                <p class="rsvp-text">
+                    Tu presencia es el mejor regalo que podemos recibir.<br />
+                    Confírmenos antes del <strong>10 de enero de 2027</strong>
+                </p>
+
+                <div class="rsvp-buttons">
+                    <a href="https://wa.me/50212345678?text=Hola%20Alexander%20y%20Astid%2C%20confirmo%20mi%20asistencia%20a%20su%20boda%20%E2%9D%A4%EF%B8%8F" target="_blank" class="btn-rsvp btn-whatsapp">
+                        <i class="fab fa-whatsapp"></i> WhatsApp
+                        <span class="btn-ripple"></span>
+                    </a>
+                    <a href="mailto:boda@alexanderyastid.com?subject=Confirmación%20de%20Asistencia%20Boda&body=Hola%20Alexander%20y%20Astid,%20confirmo%20mi%20asistencia%20a%20su%20boda%20❤️" class="btn-rsvp btn-email">
+                        <i class="far fa-envelope"></i> Correo
+                        <span class="btn-ripple"></span>
+                    </a>
+                </div>
+
+                <div class="rsvp-codigo">
+                    <span class="rsvp-label">Código de vestimenta:</span>
+                    <span class="rsvp-valor">✨ Etiqueta formal · Jardín Elegante ✨</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- FOOTER                                                       -->
+    <!-- ============================================================ -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-corazones">
+                    <span>💕</span>
+                    <span>💖</span>
+                    <span>💕</span>
+                </div>
+                <p class="footer-mensaje">
+                    "Gracias por ser parte de nuestro jardín de amor"
+                </p>
+                <p class="footer-copy">
+                    Alexander & Astid · 23 de enero de 2027
+                </p>
+                <div class="footer-social">
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ============================================================ -->
+    <!-- SCRIPTS                                                      -->
+    <!-- ============================================================ -->
+    <script src="script.js"></script>
+</body>
+</html>
