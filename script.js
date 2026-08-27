@@ -542,32 +542,81 @@ function initGaleriaReveal() {
 }
 
 // =============================================================
-// CONFIRMAR ASISTENCIA - GUARDA EN EXCEL + WHATSAPP
+// RSVP - UN SOLO BOTÓN CON FORMULARIO EMERGENTE
 // =============================================================
 
-// 🔑 CAMBIA ESTA URL POR LA QUE OBTUVE EN APPS SCRIPT
-const URL_GOOGLE_SHEETS = 'https://script.google.com/macros/s/AKfycbymz3a4RZZ2l5O9rqhAN0LxcvxiWMAEklflnl8DoG_GYvzTrjQR-eonsIPJIcKSAli5iA/exec';
+// 🔑 CONFIGURACIÓN
+const URL_GOOGLE_SHEETS = 'https://script.google.com/macros/s/AKfycbw5MfQHE5iVo-hzCxuEvRNZc3zXPF_Pqn6cpzkmq1d523vbC2muUdv18mVT5Ebfbqa3vA/exec';
+const NUMERO_WHATSAPP = '50232665826'; // ← CAMBIA POR TU NÚMERO
+
+// =============================================================
+// CONTROL DEL FORMULARIO EMERGENTE
+// =============================================================
+
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // Botón principal: muestra el formulario
+    const btnConfirmar = document.getElementById('btnConfirmar');
+    const formContainer = document.getElementById('rsvpForm');
+    const btnEnviar = document.getElementById('btnEnviar');
+    const btnCancelar = document.getElementById('btnCancelar');
+    
+    // Mostrar formulario al hacer clic en "Confirmar Asistencia"
+    btnConfirmar.addEventListener('click', function() {
+        // Ocultar el botón principal
+        this.style.display = 'none';
+        // Mostrar el formulario con animación
+        formContainer.style.display = 'block';
+        // Enfocar el primer campo
+        document.getElementById('nombre').focus();
+    });
+    
+    // Cancelar: ocultar formulario y mostrar botón
+    btnCancelar.addEventListener('click', function() {
+        formContainer.style.display = 'none';
+        btnConfirmar.style.display = 'inline-flex';
+        // Limpiar campos
+        document.getElementById('nombre').value = '';
+        document.getElementById('telefono').value = '';
+        document.getElementById('invitados').value = '1';
+    });
+    
+    // Enviar: guardar y abrir WhatsApp
+    btnEnviar.addEventListener('click', confirmarAsistencia);
+    
+    // Presionar Enter en los campos también envía
+    const inputs = document.querySelectorAll('#rsvpForm input');
+    inputs.forEach(input => {
+        input.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                confirmarAsistencia();
+            }
+        });
+    });
+});
+
+// =============================================================
+// FUNCIÓN PARA CONFIRMAR ASISTENCIA
+// =============================================================
 
 function confirmarAsistencia() {
-    // 1️⃣ Obtener datos del formulario
     const nombre = document.getElementById('nombre').value.trim();
     const telefono = document.getElementById('telefono').value.trim();
-    const invitados = document.getElementById('invitados').value.trim();
+    const invitados = document.getElementById('invitados').value.trim() || '1';
     
-    // 2️⃣ Validar
+    // Validar
     if (!nombre) {
         alert('⚠️ Por favor ingresa tu nombre completo');
         document.getElementById('nombre').focus();
         return;
     }
     
-    // 3️⃣ Guardar referencia al botón
-    const btn = event.target;
-    const textoOriginal = btn.innerHTML;
-    btn.innerHTML = '⏳ Guardando...';
-    btn.disabled = true;
+    const btnEnviar = document.getElementById('btnEnviar');
+    const textoOriginal = btnEnviar.innerHTML;
+    btnEnviar.innerHTML = '⏳ Guardando...';
+    btnEnviar.disabled = true;
     
-    // 4️⃣ Guardar en Google Sheets
+    // Guardar en Google Sheets
     fetch(URL_GOOGLE_SHEETS, {
         method: 'POST',
         mode: 'no-cors',
@@ -575,7 +624,7 @@ function confirmarAsistencia() {
         body: JSON.stringify({
             nombre: nombre,
             telefono: telefono || 'No especificado',
-            invitados: invitados || '1',
+            invitados: invitados,
             mensaje: 'Confirmación desde la web'
         })
     })
@@ -584,28 +633,33 @@ function confirmarAsistencia() {
         alert('✅ ¡Confirmación guardada! Gracias por confirmar.');
         
         // Abrir WhatsApp con mensaje predefinido
-        const mensaje = `Hola Alexander y Astid, confirmo mi asistencia a su boda ❤️\n\nNombre: ${nombre}\nTeléfono: ${telefono || 'No especificado'}\nInvitados: ${invitados || '1'}`;
-        const urlWhatsApp = `https://wa.me/50232665826?text=${encodeURIComponent(mensaje)}`;
+        const mensaje = `Hola Alexander y Astid, confirmo mi asistencia a su boda ❤️\n\nNombre: ${nombre}\nTeléfono: ${telefono || 'No especificado'}\nInvitados: ${invitados}`;
+        const urlWhatsApp = `https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(mensaje)}`;
         window.open(urlWhatsApp, '_blank');
         
-        // Limpiar formulario
+        // Resetear todo
+        document.getElementById('rsvpForm').style.display = 'none';
+        document.getElementById('btnConfirmar').style.display = 'inline-flex';
         document.getElementById('nombre').value = '';
         document.getElementById('telefono').value = '';
-        document.getElementById('invitados').value = '';
+        document.getElementById('invitados').value = '1';
     })
-    .catch((error) => {
+    .catch(() => {
         // ❌ Si falla, solo abrir WhatsApp
-        console.error('Error al guardar:', error);
         alert('⚠️ No se pudo guardar en la base de datos, pero puedes confirmar por WhatsApp.');
-        
         const mensaje = `Hola Alexander y Astid, confirmo mi asistencia a su boda ❤️\n\nNombre: ${nombre}`;
-        const urlWhatsApp = `https://wa.me/50212345678?text=${encodeURIComponent(mensaje)}`;
+        const urlWhatsApp = `https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(mensaje)}`;
         window.open(urlWhatsApp, '_blank');
+        
+        document.getElementById('rsvpForm').style.display = 'none';
+        document.getElementById('btnConfirmar').style.display = 'inline-flex';
+        document.getElementById('nombre').value = '';
+        document.getElementById('telefono').value = '';
+        document.getElementById('invitados').value = '1';
     })
     .finally(() => {
-        // Restaurar botón
-        btn.innerHTML = textoOriginal;
-        btn.disabled = false;
+        btnEnviar.innerHTML = textoOriginal;
+        btnEnviar.disabled = false;
     });
 }
 // =============================================================

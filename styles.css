@@ -1556,3 +1556,109 @@ body {
 .petal-real:nth-child(3n)::before { content: '🌷'; font-size: 24px; }
 .petal-real:nth-child(5n)::before { content: '🌺'; font-size: 26px; }
 .petal-real:nth-child(7n)::before { content: '🌹'; font-size: 22px; }
+
+/* ============================================================= */
+/* RSVP - FORMULARIO EMERGENTE                                  */
+/* ============================================================= */
+
+/* ===== CONTENEDOR DEL FORMULARIO (oculto inicialmente) ===== */
+.rsvp-form-container {
+    margin-top: 20px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 16px;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    animation: fadeInUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+}
+
+.rsvp-form-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.rsvp-form-titulo {
+    font-family: var(--fuente-serif);
+    font-style: italic;
+    color: var(--verde-musgo);
+    font-size: 1rem;
+    margin-bottom: 5px;
+    letter-spacing: 1px;
+}
+
+/* ===== INPUTS DEL FORMULARIO ===== */
+.rsvp-form-inner input {
+    padding: 12px 16px;
+    border: 1.5px solid #e5ddd6;
+    border-radius: 12px;
+    font-family: var(--fuente-sans);
+    font-size: 0.95rem;
+    background: #fff;
+    transition: all 0.3s ease;
+    outline: none;
+    color: var(--texto-oscuro);
+}
+
+.rsvp-form-inner input:focus {
+    border-color: var(--dorado);
+    box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
+}
+
+.rsvp-form-inner input::placeholder {
+    color: #b8a28c;
+    font-weight: 300;
+}
+
+/* ===== BOTONES DEL FORMULARIO ===== */
+.rsvp-form-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.rsvp-form-buttons .btn-rsvp {
+    padding: 12px 20px;
+    font-size: 0.9rem;
+    border: none;
+    cursor: pointer;
+    border-radius: 12px;
+    font-family: var(--fuente-sans);
+    font-weight: 500;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.btn-cancelar {
+    background: #f0ece8;
+    color: var(--texto-claro);
+    box-shadow: none;
+}
+
+.btn-cancelar:hover {
+    background: #e5ddd6;
+    transform: translateY(-2px);
+}
+
+/* ============================================================= */
+/* RESPONSIVE                                                    */
+/* ============================================================= */
+
+@media (max-width: 480px) {
+    .rsvp-form-container {
+        padding: 15px;
+    }
+    
+    .rsvp-form-inner input {
+        padding: 10px 14px;
+        font-size: 0.85rem;
+    }
+    
+    .rsvp-form-buttons {
+        flex-direction: column;
+    }
+    
+    .rsvp-form-buttons .btn-rsvp {
+        width: 100%;
+        justify-content: center;
+    }
+}

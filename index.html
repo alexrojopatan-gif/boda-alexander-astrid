@@ -227,14 +227,15 @@
         <span class="lightbox-nav next"><i class="fas fa-chevron-right"></i></span>
     </div>
 
-    <!-- ============================================================ -->
-<!-- SECCIÓN RSVP - CONFIRMAR ASISTENCIA                         -->
+
+<!-- ============================================================ -->
+<!-- SECCIÓN RSVP - UN SOLO BOTÓN CON FORMULARIO EMERGENTE       -->
 <!-- ============================================================ -->
 <section id="rsvp" class="section-rsvp">
     <div class="container">
         <div class="rsvp-card glass-effect">
             
-            <!-- Decoración elegante (colochos / filigrana) -->
+            <!-- Decoración elegante -->
             <div class="rsvp-decoracion">
                 <span class="filigrana">❧</span>
                 <span class="filigrana">☙</span>
@@ -248,13 +249,30 @@
                 Confírmanos antes del <strong>10 de enero de 2027</strong>
             </p>
 
-            <!-- BOTÓN DE WHATSAPP -->
-            <a href="https://wa.me/50232665826?text=Hola%20Alexander%20y%20Astid%2C%20confirmo%20mi%20asistencia%20a%20su%20boda%20%E2%9D%A4%EF%B8%8F" 
-               target="_blank" 
-               class="btn-rsvp btn-whatsapp">
-                <i class="fab fa-whatsapp"></i> Confirmar vía WhatsApp
-                <span class="btn-ripple"></span>
-            </a>
+            <!-- ===== BOTÓN PRINCIPAL ===== -->
+            <button id="btnConfirmar" class="btn-rsvp btn-whatsapp">
+                <i class="fas fa-check"></i> Confirmar Asistencia
+            </button>
+
+            <!-- ===== FORMULARIO EMERGENTE (oculto inicialmente) ===== -->
+            <div id="rsvpForm" class="rsvp-form-container" style="display: none;">
+                <div class="rsvp-form-inner">
+                    <p class="rsvp-form-titulo">💐 Completa tus datos</p>
+                    
+                    <input type="text" id="nombre" placeholder="Tu nombre completo" required />
+                    <input type="tel" id="telefono" placeholder="Tu número de teléfono (opcional)" />
+                    <input type="number" id="invitados" placeholder="Número de invitados" min="1" value="1" />
+                    
+                    <div class="rsvp-form-buttons">
+                        <button id="btnEnviar" class="btn-rsvp btn-whatsapp" style="flex:1;">
+                            <i class="fas fa-check"></i> Confirmar
+                        </button>
+                        <button id="btnCancelar" class="btn-rsvp btn-cancelar" style="flex:0.5;">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
 
             <!-- Código de vestimenta -->
             <div class="rsvp-codigo">
@@ -263,17 +281,6 @@
             </div>
         </div>
     </div>
-    <!-- ============================================================ -->
-<!-- FORMULARIO RSVP - GUARDA EN GOOGLE SHEETS + WHATSAPP         -->
-<!-- ============================================================ -->
-<div class="rsvp-form">
-    <input type="text" id="nombre" placeholder="Tu nombre completo" required />
-    <input type="tel" id="telefono" placeholder="Tu número de teléfono" />
-    <input type="number" id="invitados" placeholder="Número de invitados" min="1" />
-    <button onclick="confirmarAsistencia()" class="btn-rsvp btn-whatsapp">
-        <i class="fas fa-check"></i> Confirmar Asistencia
-    </button>
-</div>
 </section>
 
     <!-- ============================================================ -->
