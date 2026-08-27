@@ -493,6 +493,41 @@ function configurarBotonMusica() {
     console.log('🎵 Botón de música configurado');
 }
 
+
+// =============================================================
+// EFECTO REVEAL EN GALERÍA - ZOOM AL APARECER
+// =============================================================
+
+function initGaleriaReveal() {
+    const items = document.querySelectorAll('.galeria-item');
+    
+    if (items.length === 0) return;
+    
+    // Crear un observer para detectar cuando los elementos entran en pantalla
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            const item = entry.target;
+            
+            if (entry.isIntersecting) {
+                // Cuando entra en pantalla → se agranda
+                item.classList.add('visible');
+                item.classList.remove('pasado');
+            } else {
+                // Cuando sale de pantalla → se reduce
+                item.classList.remove('visible');
+                item.classList.add('pasado');
+            }
+        });
+    }, {
+        threshold: 0.3, // 30% visible para activar
+        rootMargin: '0px 0px -50px 0px' // Se activa un poco antes
+    });
+    
+    // Observar cada item
+    items.forEach(item => {
+        observer.observe(item);
+    });
+}
 // =============================================================
 // INICIALIZAR TODO CUANDO LA PÁGINA CARGA
 // =============================================================
@@ -500,4 +535,6 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('🎵 Iniciando música...');
     cargarYouTubeAPI();
     configurarBotonMusica();
+    // Inicializar efecto reveal en galería
+    initGaleriaReveal();
 });

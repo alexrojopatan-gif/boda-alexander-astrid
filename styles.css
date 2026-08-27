@@ -795,16 +795,29 @@ body {
     }
 }
 /* ============================================================= */
-/* SECCIÓN GALERÍA                                               */
+/* GALERÍA - CON EFECTO REVEAL                                  */
 /* ============================================================= */
+
 .section-galeria {
     padding: 80px 0;
     background: var(--beige);
+    overflow: hidden;
 }
 
+/* ===== HEADER ELEGANTE ===== */
 .galeria-header {
     text-align: center;
     margin-bottom: 50px;
+}
+
+.galeria-decorator {
+    font-family: var(--fuente-serif);
+    font-size: 1.8rem;
+    color: var(--dorado);
+    opacity: 0.5;
+    letter-spacing: 4px;
+    display: inline-block;
+    margin: 0 10px;
 }
 
 .galeria-header h2 {
@@ -813,12 +826,7 @@ body {
     color: var(--verde-musgo);
     font-weight: 400;
     display: inline-block;
-    margin: 0 16px;
-}
-
-.galeria-icon {
-    font-size: 1.5rem;
-    opacity: 0.5;
+    margin: 0 5px;
 }
 
 .galeria-sub {
@@ -826,54 +834,78 @@ body {
     font-style: italic;
     color: var(--texto-claro);
     font-size: 1rem;
-    margin-top: 8px;
+    margin-top: 10px;
+    letter-spacing: 1px;
+    opacity: 0.7;
 }
 
+/* ===== GRID ===== */
 .galeria-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 25px;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
 }
 
+/* ===== CADA ITEM CON EFECTO REVEAL ===== */
 .galeria-item {
     position: relative;
     border-radius: 16px;
     overflow: hidden;
     cursor: pointer;
-    aspect-ratio: 1 / 1;
-    box-shadow: var(--sombra-suave);
-    transition: var(--transicion);
+    aspect-ratio: 4 / 5;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    opacity: 0; /* ← OCULTO POR DEFECTO */
+    transform: scale(0.85) translateY(40px); /* ← EMPIEZA PEQUEÑO Y ABAJO */
+    will-change: transform, opacity;
 }
 
-.galeria-item:hover {
-    transform: translateY(-6px) scale(1.01);
-    box-shadow: var(--sombra-media);
+/* Estado visible (cuando aparece) */
+.galeria-item.visible {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+}
+
+/* Estado cuando ya pasó (se reduce) */
+.galeria-item.pasado {
+    opacity: 0.5;
+    transform: scale(0.92) translateY(0);
 }
 
 .galeria-item img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: var(--transicion);
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .galeria-item:hover img {
     transform: scale(1.08);
 }
 
+.galeria-item:hover {
+    box-shadow: 0 12px 50px rgba(0, 0, 0, 0.15);
+    transform: scale(1.02) translateY(-5px);
+}
+
+/* ===== OVERLAY (aparece al hacer hover) ===== */
 .galeria-overlay {
     position: absolute;
     inset: 0;
     background: rgba(45, 74, 59, 0.6);
-    backdrop-filter: blur(3px);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     opacity: 0;
-    transition: var(--transicion);
+    transition: opacity 0.5s ease;
     color: #fff;
-    gap: 6px;
+    gap: 8px;
 }
 
 .galeria-item:hover .galeria-overlay {
@@ -883,13 +915,73 @@ body {
 .galeria-overlay i {
     font-size: 2rem;
     margin-bottom: 4px;
+    color: var(--dorado);
 }
 
 .galeria-overlay span {
     font-size: 0.75rem;
-    letter-spacing: 2px;
+    letter-spacing: 3px;
     text-transform: uppercase;
     font-weight: 300;
+}
+
+/* ============================================================= */
+/* RESPONSIVE                                                    */
+/* ============================================================= */
+
+@media (max-width: 768px) {
+    .galeria-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        padding: 0 15px;
+    }
+    
+    .galeria-header h2 {
+        font-size: 2.2rem;
+    }
+    
+    .galeria-decorator {
+        font-size: 1.2rem;
+    }
+    
+    .galeria-sub {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .galeria-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        padding: 0 10px;
+    }
+    
+    .galeria-item {
+        aspect-ratio: 4 / 5;
+        border-radius: 12px;
+    }
+    
+    .galeria-header h2 {
+        font-size: 1.8rem;
+    }
+    
+    .galeria-decorator {
+        font-size: 1rem;
+    }
+    
+    .galeria-sub {
+        font-size: 0.8rem;
+        margin-top: 8px;
+    }
+    
+    .galeria-overlay i {
+        font-size: 1.5rem;
+    }
+    
+    .galeria-overlay span {
+        font-size: 0.6rem;
+        letter-spacing: 2px;
+    }
 }
 
 /* ============================================================= */
