@@ -567,7 +567,7 @@ body {
 }
 
 /* ============================================================= */
-/* CUENTA REGRESIVA - VERSIÓN MEJORADA PARA MÓVILES             */
+/* CUENTA REGRESIVA - 4 COLUMNAS CON TAMAÑO AJUSTADO            */
 /* ============================================================= */
 
 .countdown-grid {
@@ -586,7 +586,7 @@ body {
     border-radius: 16px;
     border: 1px solid rgba(255, 255, 255, 0.08);
     transition: var(--transicion);
-    min-width: 0; /* ← PERMITE QUE EL CONTENIDO SE ENCOJA */
+    min-width: 0; /* Permite que el contenido se encoja */
 }
 
 .countdown-item:hover {
@@ -601,7 +601,7 @@ body {
     font-weight: 700;
     color: var(--dorado);
     line-height: 1;
-    white-space: nowrap; /* ← EVITA QUE SE ROMPA */
+    white-space: nowrap; /* Evita que se rompa */
 }
 
 .countdown-label {
@@ -615,14 +615,15 @@ body {
 }
 
 /* ============================================================= */
-/* RESPONSIVE PARA MÓVILES                                       */
+/* RESPONSIVE - MANTENER 4 COLUMNAS EN MÓVILES                   */
 /* ============================================================= */
 
-/* Tablets y móviles grandes */
+/* Tablets */
 @media (max-width: 768px) {
     .countdown-grid {
         gap: 14px;
         padding: 0 10px;
+        max-width: 100%;
     }
     
     .countdown-number {
@@ -639,27 +640,28 @@ body {
     }
 }
 
-/* Móviles pequeños (menos de 480px) */
+/* Móviles (menos de 480px) - NÚMEROS MÁS PEQUEÑOS */
 @media (max-width: 480px) {
     .countdown-grid {
-        grid-template-columns: repeat(2, 1fr); /* ← 2 COLUMNAS EN VEZ DE 4 */
-        gap: 12px;
-        max-width: 320px;
+        grid-template-columns: repeat(4, 1fr); /* ← 4 COLUMNAS */
+        gap: 8px;
         padding: 0 5px;
+        max-width: 100%;
     }
     
     .countdown-number {
-        font-size: 2.5rem; /* ← MÁS GRANDE PARA QUE SE VEA BIEN */
+        font-size: 1.4rem; /* ← NÚMEROS PEQUEÑOS PARA QUE QUEPAN */
     }
     
     .countdown-item {
-        padding: 12px 6px;
-        border-radius: 12px;
+        padding: 10px 4px;
+        border-radius: 10px;
     }
     
     .countdown-label {
-        font-size: 0.55rem;
-        letter-spacing: 1px;
+        font-size: 0.5rem; /* ← TEXTO MÁS PEQUEÑO */
+        letter-spacing: 0.5px;
+        margin-top: 2px;
     }
     
     /* Ajustar el header */
@@ -675,24 +677,24 @@ body {
 /* Móviles muy pequeños (menos de 360px) */
 @media (max-width: 360px) {
     .countdown-grid {
-        gap: 8px;
-        max-width: 280px;
+        gap: 5px;
+        padding: 0 3px;
     }
     
     .countdown-number {
-        font-size: 2rem;
+        font-size: 1.1rem; /* ← AÚN MÁS PEQUEÑO */
     }
     
     .countdown-item {
-        padding: 10px 4px;
+        padding: 8px 2px;
+        border-radius: 8px;
     }
     
     .countdown-label {
-        font-size: 0.5rem;
-        letter-spacing: 0.5px;
+        font-size: 0.4rem;
+        letter-spacing: 0px;
     }
 }
-
 /* ============================================================= */
 /* SECCIÓN GALERÍA                                               */
 /* ============================================================= */
