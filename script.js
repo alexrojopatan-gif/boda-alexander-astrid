@@ -495,7 +495,7 @@ function configurarBotonMusica() {
 
 
 // =============================================================
-// EFECTO REVEAL EN GALERÍA - ZOOM AL APARECER
+// GALERÍA - EFECTO REVELACIÓN CON ZOOM (UNA IMAGEN POR FILA)
 // =============================================================
 
 function initGaleriaReveal() {
@@ -503,15 +503,24 @@ function initGaleriaReveal() {
     
     if (items.length === 0) return;
     
-    // Crear un observer para detectar cuando los elementos entran en pantalla
+    // Configuración del observer
     const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
             const item = entry.target;
             
             if (entry.isIntersecting) {
-                // Cuando entra en pantalla → se agranda
-                item.classList.add('visible');
+                // Cuando entra en pantalla → se agranda con efecto
                 item.classList.remove('pasado');
+                item.classList.add('visible');
+                
+                // Efecto adicional: la imagen se agranda ligeramente
+                const img = item.querySelector('img');
+                if (img) {
+                    img.style.transform = 'scale(1.02)';
+                    setTimeout(() => {
+                        img.style.transform = 'scale(1)';
+                    }, 600);
+                }
             } else {
                 // Cuando sale de pantalla → se reduce
                 item.classList.remove('visible');
@@ -519,13 +528,16 @@ function initGaleriaReveal() {
             }
         });
     }, {
-        threshold: 0.3, // 30% visible para activar
-        rootMargin: '0px 0px -50px 0px' // Se activa un poco antes
+        threshold: 0.40, // 40% visible para activar
+        rootMargin: '0px 0px -30px 0px'
     });
     
     // Observar cada item
-    items.forEach(item => {
-        observer.observe(item);
+    items.forEach((item, index) => {
+        // Retraso escalonado para que aparezcan uno tras otro
+        setTimeout(() => {
+            observer.observe(item);
+        }, 200 * index);
     });
 }
 // =============================================================
