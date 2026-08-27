@@ -540,6 +540,74 @@ function initGaleriaReveal() {
         }, 200 * index);
     });
 }
+
+// =============================================================
+// CONFIRMAR ASISTENCIA - GUARDA EN EXCEL + WHATSAPP
+// =============================================================
+
+// 🔑 CAMBIA ESTA URL POR LA QUE OBTUVE EN APPS SCRIPT
+const URL_GOOGLE_SHEETS = 'https://script.google.com/macros/s/AKfycbymz3a4RZZ2l5O9rqhAN0LxcvxiWMAEklflnl8DoG_GYvzTrjQR-eonsIPJIcKSAli5iA/exec';
+
+function confirmarAsistencia() {
+    // 1️⃣ Obtener datos del formulario
+    const nombre = document.getElementById('nombre').value.trim();
+    const telefono = document.getElementById('telefono').value.trim();
+    const invitados = document.getElementById('invitados').value.trim();
+    
+    // 2️⃣ Validar
+    if (!nombre) {
+        alert('⚠️ Por favor ingresa tu nombre completo');
+        document.getElementById('nombre').focus();
+        return;
+    }
+    
+    // 3️⃣ Guardar referencia al botón
+    const btn = event.target;
+    const textoOriginal = btn.innerHTML;
+    btn.innerHTML = '⏳ Guardando...';
+    btn.disabled = true;
+    
+    // 4️⃣ Guardar en Google Sheets
+    fetch(URL_GOOGLE_SHEETS, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            nombre: nombre,
+            telefono: telefono || 'No especificado',
+            invitados: invitados || '1',
+            mensaje: 'Confirmación desde la web'
+        })
+    })
+    .then(() => {
+        // ✅ Guardado exitoso
+        alert('✅ ¡Confirmación guardada! Gracias por confirmar.');
+        
+        // Abrir WhatsApp con mensaje predefinido
+        const mensaje = `Hola Alexander y Astid, confirmo mi asistencia a su boda ❤️\n\nNombre: ${nombre}\nTeléfono: ${telefono || 'No especificado'}\nInvitados: ${invitados || '1'}`;
+        const urlWhatsApp = `https://wa.me/50232665826?text=${encodeURIComponent(mensaje)}`;
+        window.open(urlWhatsApp, '_blank');
+        
+        // Limpiar formulario
+        document.getElementById('nombre').value = '';
+        document.getElementById('telefono').value = '';
+        document.getElementById('invitados').value = '';
+    })
+    .catch((error) => {
+        // ❌ Si falla, solo abrir WhatsApp
+        console.error('Error al guardar:', error);
+        alert('⚠️ No se pudo guardar en la base de datos, pero puedes confirmar por WhatsApp.');
+        
+        const mensaje = `Hola Alexander y Astid, confirmo mi asistencia a su boda ❤️\n\nNombre: ${nombre}`;
+        const urlWhatsApp = `https://wa.me/50212345678?text=${encodeURIComponent(mensaje)}`;
+        window.open(urlWhatsApp, '_blank');
+    })
+    .finally(() => {
+        // Restaurar botón
+        btn.innerHTML = textoOriginal;
+        btn.disabled = false;
+    });
+}
 // =============================================================
 // INICIALIZAR TODO CUANDO LA PÁGINA CARGA
 // =============================================================

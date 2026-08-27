@@ -263,6 +263,17 @@
             </div>
         </div>
     </div>
+    <!-- ============================================================ -->
+<!-- FORMULARIO RSVP - GUARDA EN GOOGLE SHEETS + WHATSAPP         -->
+<!-- ============================================================ -->
+<div class="rsvp-form">
+    <input type="text" id="nombre" placeholder="Tu nombre completo" required />
+    <input type="tel" id="telefono" placeholder="Tu número de teléfono" />
+    <input type="number" id="invitados" placeholder="Número de invitados" min="1" />
+    <button onclick="confirmarAsistencia()" class="btn-rsvp btn-whatsapp">
+        <i class="fas fa-check"></i> Confirmar Asistencia
+    </button>
+</div>
 </section>
 
     <!-- ============================================================ -->
@@ -298,6 +309,16 @@
     <!-- REPRODUCTOR DE YOUTUBE (oculto)                              -->
     <!-- ============================================================ -->
     <div id="youtube-player"></div>
+
+    <!-- FORMULARIO RSVP CON EXCEL
+<div class="rsvp-form">
+    <input type="text" id="nombre" placeholder="Tu nombre completo" required />
+    <input type="tel" id="telefono" placeholder="Tu número de teléfono" />
+    <input type="number" id="invitados" placeholder="Número de invitados" />
+    <button onclick="guardarConfirmacion()" class="btn-rsvp btn-whatsapp">
+        <i class="fas fa-check"></i> Confirmar Asistencia
+    </button>
+</div> -->
 
     <!-- Cargar la API de YouTube -->
     <script src="script.js"></script>
