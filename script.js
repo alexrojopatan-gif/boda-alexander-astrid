@@ -2,7 +2,7 @@
 // CONFIGURACIÓN - CAMBIA ESTOS DATOS AQUÍ
 // =============================================================
 const CONFIG = {
-    fechaBoda: new Date('2027-01-23T19:00:00'),
+    fechaBoda: new Date('2027-01-23T15:00:00'),
     novios: 'Alexander y Astrid',
     musica: 'assets/music/cancion.mp3',
     fotos: [
